@@ -1,29 +1,25 @@
 class Solution {
     public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
-        int[][] fourdirection = fourdirectional(image.length, image[0].length, sr, sc);
-        for(int i = 0; i < fourdirection.length; i++) {
-            if(fourdirection[i][0] != -1) { //i.e. valid position
-                if(image[fourdirection[i][0]][fourdirection[i][1]] == image[sr][sc]) { //i.e. same color
-                    image[sr][sc] = newColor;
-                    image = floodFill(image, fourdirection[i][0], fourdirection[i][1], newColor);
-                }  
-            }
-        }
+        if(image[sr][sc] != newColor)
+            rdfs(image, sr, sc, newColor, image[sr][sc]);
         return image;
-    }   
-    public int[][] fourdirectional(int height, int width, int x, int y) {
-        int i = 0, j = 0;
-        int arr[][] = {{x - 1, y},
-                       {x, y - 1},
-                       {x + 1, y},
-                       {x, y + 1}};
-        for(i = 0; i < arr.length; i++) {
-            int xin = arr[i][0];
-            int yin = arr[i][1];
-            if(xin > (height - 1) || xin < 0 || yin > (width - 1) || yin < 0) { //checking if four directional positions are in the image
-                arr[i][0] = -1; //made it invalid
-            }
+    }
+    public void rdfs(int[][] image, int xin, int yin, int newColor, int orig) {
+        if(xin > (image.length - 1) || xin < 0 || yin > (image[0].length - 1) || yin < 0) { //checking if four directional positions are in the image
+            return;
         }
-        return arr;
+        if(image[xin][yin] == orig) {
+            image[xin][yin] = newColor; //changed to new color  
+            int arr[][] = {{xin - 1, yin},
+                           {xin, yin - 1},
+                           {xin + 1, yin},
+                           {xin, yin + 1}};
+            rdfs(image, arr[0][0], arr[0][1], newColor, orig);
+            rdfs(image, arr[1][0], arr[1][1], newColor, orig);
+            rdfs(image, arr[2][0], arr[2][1], newColor, orig);
+            rdfs(image, arr[3][0], arr[3][1], newColor, orig); 
+        }
+        else
+            return;
     }
 }

@@ -1,4 +1,3 @@
-//accepted but O(n) time complexity and O(1) space complexity
 class Solution {
     public int singleNonDuplicate(int[] nums) {
         int i = 0;
